@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-secret-key")
 
 DEBUG = os.environ.get("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["*"]  # for now (we can tighten later)
+ALLOWED_HOSTS = ["*"]
 
 # APPLICATIONS
 INSTALLED_APPS = [
