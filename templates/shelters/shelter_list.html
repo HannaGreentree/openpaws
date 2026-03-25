@@ -1,0 +1,73 @@
+{% extends "base.html" %} {% load static %} {% block content %}
+
+<section class="shelters-page">
+  <div class="shelters-top-banner"></div>
+
+  <div class="shelters-intro">
+    <p class="shelters-intro-line">
+      Meet trusted shelters and volunteers caring for animals in need.
+    </p>
+    <p class="shelters-intro-line">
+      OpenPaws helps donors discover rescue organisations with more
+      transparency.
+    </p>
+  </div>
+
+  <h1 class="shelters-title">SHELTERS AND VOLUNTEERS</h1>
+
+  {% if shelters %}
+  <div class="shelters-grid">
+    {% for shelter in shelters %}
+    <article class="shelter-card">
+      <div class="shelter-image-wrap">
+        {% if shelter.image %}
+        <img
+          src="{{ shelter.image.url }}"
+          alt="{{ shelter.name }}"
+          class="shelter-image"
+        />
+        {% else %}
+        <img
+          src="{% static 'images/catdog.jpg' %}"
+          alt="{{ shelter.name }}"
+          class="shelter-image"
+        />
+        {% endif %}
+      </div>
+
+      <div class="shelter-card-content">
+        <h2 class="shelter-name">{{ shelter.name }}</h2>
+
+        <p class="shelter-info">
+          <span class="shelter-label">City:</span>
+          {{ shelter.city }}
+        </p>
+
+        <p class="shelter-info">
+          <span class="shelter-label">Animals:</span>
+          {{ shelter.animals_count }}
+        </p>
+
+        <p class="shelter-info">
+          <span class="shelter-label">Trust:</span>
+          {{ shelter.trust_points }}
+        </p>
+
+        <a
+          href="{% url 'shelters:detail' shelter.pk %}"
+          class="shelter-details-btn"
+        >
+          View Details
+        </a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="shelters-empty">
+    <p>No shelters added yet.</p>
+  </div>
+  {% endif %}
+</section>
+
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>Platform Balance</h1>
+
+<ul>
+  <li><strong>Platform donations total:</strong> £{{ platform_total }}</li>
+  <li>
+    <strong>Allocated to cases (approved):</strong> £{{ allocated_total }}
+  </li>
+  <li><strong>Available balance:</strong> £{{ available_balance }}</li>
+  <li><strong>Total “Thank You” donations:</strong> £{{ thank_you_total }}</li>
+</ul>
+
+{% endblock %}

@@ -1,0 +1,117 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OpenPaws</title>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}" />
+    <link rel="stylesheet" href="{% static 'css/status.css' %}" />
+  </head>
+
+  <body>
+    <!-- SHARED TOP HEADER -->
+    <header class="home-header">
+      <div class="home-header-inner">
+        <a href="{% url 'home' %}" class="home-logo-link">
+          <img
+            src="{% static 'images/op-logo.png' %}"
+            alt="OpenPaws logo"
+            class="home-logo-image"
+          />
+        </a>
+
+        <button
+          class="menu-toggle"
+          type="button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-nav"
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+
+        <nav class="home-nav" aria-label="Main navigation">
+          <a href="{% url 'home' %}">Home</a>
+          <a href="{% url 'shelters:list' %}">Shelters</a>
+          <a href="{% url 'cases:list' %}">Cases</a>
+          <a href="{% url 'payments:balance' %}">Balance</a>
+          <a href="{% url 'admin:index' %}">Admin</a>
+        </nav>
+      </div>
+
+      <nav class="mobile-nav" id="mobile-nav" aria-label="Mobile navigation">
+        <a href="{% url 'home' %}">Home</a>
+        <a href="{% url 'shelters:list' %}">Shelters</a>
+        <a href="{% url 'cases:list' %}">Cases</a>
+        <a href="{% url 'payments:balance' %}">Balance</a>
+        <a href="{% url 'admin:index' %}">Admin</a>
+      </nav>
+    </header>
+
+    {% if messages %}
+    <section class="messages-wrap">
+      <div class="messages-list">
+        {% for message in messages %}
+        <div class="message-item">{{ message }}</div>
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
+
+    <main class="site-main">{% block content %}{% endblock %}</main>
+
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <h3>About OpenPaws</h3>
+          <p>
+            OpenPaws is a platform designed to help animal shelters and
+            volunteers receive transparent support for their work.
+          </p>
+        </div>
+
+        <div class="footer-column">
+          <h3>Quick Links</h3>
+          <ul class="footer-links">
+            <li><a href="{% url 'home' %}">Home</a></li>
+            <li><a href="{% url 'shelters:list' %}">Shelters</a></li>
+            <li><a href="{% url 'cases:list' %}">Cases</a></li>
+            <li><a href="{% url 'payments:balance' %}">Balance</a></li>
+            <li><a href="{% url 'admin:index' %}">Admin</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-column">
+          <h3>Transparency Commitment</h3>
+          <p>
+            OpenPaws promotes responsible use of donations by requiring shelters
+            to provide proof of how funds are used before cases are closed.
+          </p>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 OpenPaws. All rights reserved.</p>
+      </div>
+    </footer>
+
+    <script>
+      const menuToggle = document.querySelector(".menu-toggle");
+      const mobileNav = document.querySelector(".mobile-nav");
+
+      if (menuToggle && mobileNav) {
+        menuToggle.addEventListener("click", function () {
+          mobileNav.classList.toggle("mobile-nav-open");
+
+          const isExpanded =
+            menuToggle.getAttribute("aria-expanded") === "true";
+          menuToggle.setAttribute("aria-expanded", !isExpanded);
+        });
+      }
+    </script>
+  </body>
+</html>

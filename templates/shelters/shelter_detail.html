@@ -1,0 +1,42 @@
+{% extends "base.html" %} {% block content %}
+
+<p>TEST TEMPLATE 123</p>
+
+<h1>{{ shelter.name }}</h1>
+
+<p><strong>Location:</strong> {{ shelter.country }}, {{ shelter.city }}</p>
+<p><strong>Animals cared for:</strong> {{ shelter.animals_count }}</p>
+<p><strong>Trust points:</strong> {{ shelter.trust_points }}</p>
+
+{% if shelter.social_link %}
+<p>
+  <strong>Social:</strong>
+  <a href="{{ shelter.social_link }}" target="_blank" rel="noopener">
+    {{ shelter.social_link }}
+  </a>
+</p>
+{% endif %}
+
+<p><strong>Thank You Balance:</strong> £{{ thank_you_balance }}</p>
+
+<p>
+  <a href="{% url 'payments:thank_you' shelter.id %}">Say Thank You 💛</a>
+</p>
+
+<hr />
+
+<h2>Cases</h2>
+
+{% if cases %}
+<ul>
+  {% for c in cases %}
+  <li>
+    <strong>{{ c.title }}</strong>
+    — £{{ c.amount_funded }} / £{{ c.amount_requested }} — Status: {{
+    c.get_status_display }} — <a href="{% url 'cases:detail' c.pk %}">View</a>
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>No cases for this shelter yet.</p>
+{% endif %} {% endblock %}

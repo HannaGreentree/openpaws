@@ -1,0 +1,58 @@
+{% extends "base.html" %} {% block content %}
+
+<h1>{{ case.title }}</h1>
+
+<p>
+  <strong>Shelter:</strong>
+  <a href="{% url 'shelters:detail' case.shelter.pk %}">
+    {{ case.shelter.name }}
+  </a>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <span
+    class="status-badge {% if case.status == 'OPEN' %}status-open {% elif case.status == 'PROCESSING' %}status-processing {% elif case.status == 'AWAITING_REVIEW' %}status-awaiting-review {% elif case.status == 'CLOSED' %}status-closed {% else %}status-rejected {% endif %}"
+  >
+    {{ case.get_status_display }}
+  </span>
+</p>
+
+<p><strong>Requested:</strong> £{{ case.amount_requested }}</p>
+<p><strong>Funded:</strong> £{{ case.amount_funded }}</p>
+
+<hr />
+<p>{{ case.description }}</p>
+
+{% if case.proof_link %}
+<hr />
+<p>
+  <strong>Proof link:</strong>
+  <a href="{{ case.proof_link }}" target="_blank" rel="noopener">
+    {{ case.proof_link }}
+  </a>
+</p>
+{% endif %} {% if case.status == "PROCESSING" and proof_form %}
+<hr />
+<h3>Submit proof link (social media post)</h3>
+<form method="post">
+  {% csrf_token %} {{ proof_form.as_p }}
+  <button type="submit" name="submit_proof">Save proof link</button>
+</form>
+{% endif %}
+
+<hr />
+<h3>Support this platform</h3>
+<p>
+  Donations go to the website balance. The admin reviews cases and allocates
+  funds to verified shelters/volunteers.
+</p>
+<p>
+  <a href="{% url 'payments:donate_platform' %}"
+    >Donate to the website balance</a
+  >
+  |
+  <a href="{% url 'payments:balance' %}">View platform balance</a>
+</p>
+
+{% endblock %}

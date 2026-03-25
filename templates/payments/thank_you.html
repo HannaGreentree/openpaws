@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Say Thank You 💛</h1>
+
+<p><strong>Shelter:</strong> {{ shelter.name }}</p>
+
+{% if thank_you_balance %}
+<p><strong>Thank You balance for this shelter:</strong> £{{ thank_you_balance }}</p>
+{% endif %}
+
+<form method="post" action="{% url 'payments:thank_you_checkout' shelter.id %}">
+  {% csrf_token %}
+  <label for="amount"><strong>Amount (£):</strong></label>
+  <input id="amount" name="amount" type="number" step="0.01" min="1" value="5" />
+  <button type="submit">Send Thank You</button>
+</form>
+{% endblock %}
