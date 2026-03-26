@@ -11,3 +11,4 @@ urllib3==2.6.3
 gunicorn
 whitenoise
 dj-database-url
+psycopg2-binary
