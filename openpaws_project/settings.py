@@ -106,3 +106,16 @@ STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET", "")
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+import os
+from django.contrib.auth import get_user_model
+
+if os.environ.get("CREATE_SUPERUSER") == "True":
+    User = get_user_model()
+    username = os.environ.get("SUPERUSER_USERNAME")
+    email = os.environ.get("SUPERUSER_EMAIL")
+    password = os.environ.get("SUPERUSER_PASSWORD")
+
+    if username and password and not User.objects.filter(username=username).exists():
+        print("Creating superuser...")
+        User.objects.create_superuser(username, email, password)
