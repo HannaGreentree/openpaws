@@ -31,8 +31,7 @@
   <li>
     <strong>{{ c.title }}</strong>
     — £{{ c.amount_funded }} / £{{ c.amount_requested }} — Status: {{
-    c.get_status_display }} —
-    <a href="{% url 'cases:detail' c.pk %}">View</a>
+    c.get_status_display }} — <a href="{% url 'cases:detail' c.pk %}">View</a>
   </li>
   {% endfor %}
 </ul>
