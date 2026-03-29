@@ -88,27 +88,32 @@ class Case(models.Model):
 
         now = timezone.now()
 
-        # 1. Auto move OPEN -> PROCESSING when admin approves amount
         if self.approved_amount and self.approved_amount > 0 and self.status == "OPEN":
             self.status = "PROCESSING"
             if self.approved_at is None:
                 self.approved_at = now
 
-        # 2. When entering PROCESSING first time, start 14-day timer
         if self.status == "PROCESSING":
             entering_processing = previous is None or previous.status != "PROCESSING"
             if entering_processing and self.processing_started_at is None:
                 self.processing_started_at = now
                 self.proof_due_at = now + timedelta(days=14)
 
-        # 3. Auto move PROCESSING -> AWAITING_REVIEW when proof link is added
         if self.proof_link and self.status == "PROCESSING":
             self.status = "AWAITING_REVIEW"
             if self.proof_submitted_at is None:
                 self.proof_submitted_at = now
 
-        # 4. If case is closed, set closed_at once
-        if self.status == "CLOSED" and self.closed_at is None:
+        entering_closed = self.status == "CLOSED" and (
+            previous is None or previous.status != "CLOSED"
+        )
+
+        if entering_closed and self.closed_at is None:
             self.closed_at = now
 
         super().save(*args, **kwargs)
+
+        if entering_closed:
+            shelter = self.shelter
+            shelter.trust_points += 1
+            shelter.save(update_fields=["trust_points"])
