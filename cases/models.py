@@ -34,7 +34,7 @@ class Case(models.Model):
         (11, "Others"),
     ]
 
-    MONEY_FOR_CHOICES = [
+    TITLE_CHOICES = [
         ("FOOD", "Food"),
         ("NEUTERING", "Neutering"),
         ("SURGERY", "Surgery"),
@@ -48,7 +48,12 @@ class Case(models.Model):
 
     shelter = models.ForeignKey("shelters.Shelter", on_delete=models.CASCADE)
 
-    title = models.CharField(max_length=200)
+    title = models.CharField(
+        max_length=30,
+        choices=TITLE_CHOICES,
+        default="FOOD",
+        help_text="Please select what the requested funds are for.",
+    )
 
     animal = models.CharField(
         max_length=10,
@@ -59,7 +64,7 @@ class Case(models.Model):
     animal_names = models.CharField(
         max_length=255,
         blank=True,
-        help_text="Write all animal names you know, or give temporary names if needed",
+        help_text="Write all animal names you know, or give temporary names if needed.",
     )
 
     animals_count = models.PositiveSmallIntegerField(
@@ -67,18 +72,12 @@ class Case(models.Model):
         default=1,
     )
 
-    money_for = models.CharField(
-        max_length=30,
-        choices=MONEY_FOR_CHOICES,
-        default="FOOD",
-    )
-
     description = models.TextField(
-        help_text="Please provide as many details as possible about the animals, their condition, and how the requested funds will be used",
+        help_text="Please provide as many details as possible about the animals, their condition, and how the requested funds will be used.",
         validators=[
             MinLengthValidator(
                 120,
-                message="Please provide a detailed description"
+                message="Please provide a detailed description."
             )
         ],
     )
@@ -121,7 +120,7 @@ class Case(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.title
+        return self.get_title_display()
 
     @property
     def is_overdue(self):
@@ -210,4 +209,4 @@ class CaseImage(models.Model):
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Image for {self.case.title}"
+        return f"Image for {self.case.get_title_display()}"

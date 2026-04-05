@@ -14,7 +14,6 @@ class CaseAdmin(admin.ModelAdmin):
         "title",
         "animal",
         "animals_count",
-        "money_for",
         "shelter",
         "status",
         "amount_requested",
@@ -30,7 +29,6 @@ class CaseAdmin(admin.ModelAdmin):
     list_filter = (
         "status",
         "animal",
-        "money_for",
         "shelter",
         "approved_at",
         "created_at",
@@ -38,7 +36,6 @@ class CaseAdmin(admin.ModelAdmin):
     )
 
     search_fields = (
-        "title",
         "animal_names",
         "description",
         "shelter__name",
@@ -64,7 +61,6 @@ class CaseAdmin(admin.ModelAdmin):
                 "animal",
                 "animal_names",
                 "animals_count",
-                "money_for",
                 "description",
                 "status",
             )
