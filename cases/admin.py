@@ -1,78 +1,140 @@
-from decimal import Decimal
 from django.contrib import admin
-from django.core.exceptions import ValidationError
-from django.db.models import Sum
 
-from .models import Case
-from payments.models import Donation
+from .models import Case, CaseImage
+
+
+class CaseImageInline(admin.TabularInline):
+    model = CaseImage
+    extra = 3
 
 
 @admin.register(Case)
 class CaseAdmin(admin.ModelAdmin):
     list_display = (
         "title",
+        "animal",
+        "animals_count",
+        "money_for",
         "shelter",
         "status",
         "amount_requested",
         "amount_funded",
         "approved_amount",
+        "proof_received",
+        "is_overdue_display",
+        "approved_by",
+        "approved_at",
+        "created_at",
     )
-    list_filter = ("status", "shelter")
-    search_fields = ("title", "shelter__name")
 
-    def get_readonly_fields(self, request, obj=None):
-        """
-        Only superusers/admins should control approval fields in admin.
-        Shelter users should not use admin for workflow actions.
-        """
-        ro = list(super().get_readonly_fields(request, obj))
-        if not request.user.is_superuser:
-            ro += ["approved_amount", "status", "processing_started_at", "proof_due_at"]
-        return ro
+    list_filter = (
+        "status",
+        "animal",
+        "money_for",
+        "shelter",
+        "approved_at",
+        "created_at",
+        "closed_at",
+    )
+
+    search_fields = (
+        "title",
+        "animal_names",
+        "description",
+        "shelter__name",
+        "payout_reference",
+    )
+
+    readonly_fields = (
+        "created_at",
+        "approved_at",
+        "processing_started_at",
+        "proof_due_at",
+        "proof_submitted_at",
+        "closed_at",
+    )
+
+    ordering = ("-created_at",)
+
+    fieldsets = (
+        ("Case Information", {
+            "fields": (
+                "shelter",
+                "title",
+                "animal",
+                "animal_names",
+                "animals_count",
+                "money_for",
+                "description",
+                "status",
+            )
+        }),
+        ("Funding", {
+            "fields": (
+                "amount_requested",
+                "amount_funded",
+                "approved_amount",
+            )
+        }),
+        ("Approval", {
+            "fields": (
+                "approved_by",
+                "approved_at",
+            )
+        }),
+        ("Payout", {
+            "fields": (
+                "payout_method",
+                "payout_reference",
+            )
+        }),
+        ("Proof", {
+            "fields": (
+                "proof_link",
+                "processing_started_at",
+                "proof_due_at",
+                "proof_submitted_at",
+            )
+        }),
+        ("Closure", {
+            "fields": (
+                "closed_at",
+                "created_at",
+            )
+        }),
+    )
+
+    inlines = [CaseImageInline]
+
+    actions = ["mark_as_rejected", "mark_as_closed"]
 
     def save_model(self, request, obj, form, change):
-        """
-        When admin changes approved_amount, ensure platform balance is enough.
-        Also record which admin approved the case.
-        """
-        if request.user.is_superuser:
-            new_approved = obj.approved_amount or Decimal("0")
-
-            old_approved = Decimal("0")
-            if change and obj.pk:
-                old_obj = Case.objects.get(pk=obj.pk)
-                old_approved = old_obj.approved_amount or Decimal("0")
-
-            delta = new_approved - old_approved
-            if delta < 0:
-                delta = Decimal("0")
-
-            platform_total = (
-                Donation.objects.filter(
-                    paid=True,
-                    donation_type="PLATFORM",
-                    case__isnull=True,
-                ).aggregate(total=Sum("amount"))["total"]
-                or Decimal("0")
-            )
-
-            allocated_total = (
-                Case.objects.exclude(pk=obj.pk)
-                .filter(approved_amount__isnull=False)
-                .aggregate(total=Sum("approved_amount"))["total"]
-                or Decimal("0")
-            )
-
-            available_balance = platform_total - allocated_total
-
-            if delta > available_balance:
-                raise ValidationError(
-                    f"Insufficient platform balance. Available: £{available_balance}. "
-                    f"Requested approval increase: £{delta}."
-                )
-
-            # Record the admin who approved the case
-            if obj.approved_amount and obj.approved_amount > 0 and obj.approved_by is None:
-                obj.approved_by = request.user
-
+        if obj.approved_amount and obj.approved_amount > 0 and not obj.approved_by:
+            obj.approved_by = request.user
         super().save_model(request, obj, form, change)
+
+    @admin.display(boolean=True, description="Proof received")
+    def proof_received(self, obj):
+        return bool(obj.proof_link)
+
+    @admin.display(boolean=True, description="Overdue")
+    def is_overdue_display(self, obj):
+        return obj.is_overdue
+
+    @admin.action(description="Mark selected cases as Rejected")
+    def mark_as_rejected(self, request, queryset):
+        queryset.update(status="REJECTED")
+
+    @admin.action(description="Mark selected cases as Closed")
+    def mark_as_closed(self, request, queryset):
+        for case in queryset:
+            if case.proof_link:
+                case.status = "CLOSED"
+                case.save()
+
+
+@admin.register(CaseImage)
+class CaseImageAdmin(admin.ModelAdmin):
+    list_display = ("case", "uploaded_at")
+    search_fields = ("case__title",)
+    ordering = ("-uploaded_at",)
