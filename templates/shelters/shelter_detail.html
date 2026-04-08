@@ -1,45 +1,143 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
-<h1>{{ shelter.name }}</h1>
+<section class="shelters-page shelter-detail-page">
 
-<p><strong>Location:</strong> {{ shelter.country }}, {{ shelter.city }}</p>
-<p><strong>Animals cared for:</strong> {{ shelter.animals_count }}</p>
-<p><strong>Trust points:</strong> {{ shelter.trust_points }}</p>
+  <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="shelters-top-banner"></div>
 
-{% if shelter.social_link %}
-<p>
-  <strong>Social:</strong>
-  <a href="{{ shelter.social_link }}" target="_blank" rel="noopener">
-    {{ shelter.social_link }}
-  </a>
-</p>
-{% endif %}
+  <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="shelters-intro">
+    <p class="shelters-intro-line">
+      Meet trusted shelters and volunteers caring for animals in need.
+    </p>
+    <p class="shelters-intro-line">
+      OpenPaws helps donors discover rescue organisations with more
+      transparency.
+    </p>
+  </div>
 
-<p><strong>Thank You Balance:</strong> £{{ thank_you_balance }}</p>
+  <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="shelters-title">SHELTER/VOLUNTEER DETAILS</h1>
 
-<p>
-  <a href="{% url 'payments:thank_you' shelter.id %}">Say Thank You 💛</a>
-</p>
+  <!-- =========================
+       SHELTER DETAIL CARD
+  ========================== -->
+  <div class="shelter-detail-card">
 
-<hr />
+    <div class="shelter-detail-image-wrap">
+      <img
+        src="{% static 'images/cat-paw.png' %}"
+        alt="{{ shelter.name }}"
+        class="shelter-detail-image"
+      >
+    </div>
 
-<h2>Cases</h2>
+    <h2 class="shelter-detail-name">{{ shelter.name }}</h2>
 
-{% if cases %}
-<ul>
-  {% for c in cases %}
-  <li>
-    <strong>{{ c.title }}</strong>
-    — £{{ c.amount_funded }} / £{{ c.amount_requested }}
-    — Status: {{ c.get_status_display }}
-    — <a href="{% url 'cases:detail' c.pk %}">View</a>
-  </li>
-  {% endfor %}
-</ul>
-{% else %}
-<p>No cases for this shelter yet.</p>
-{% endif %}
+    <div class="shelter-detail-info">
+      <p class="shelter-detail-line">
+        <strong>Location:</strong> {{ shelter.country }}, {{ shelter.city }}
+      </p>
+
+      <p class="shelter-detail-line">
+        <strong>Animals cared for:</strong> {{ shelter.animals_count }}
+      </p>
+
+      <p class="shelter-detail-line">
+        <strong>Trust points:</strong> {{ shelter.trust_points }}
+      </p>
+
+      {% if shelter.social_link %}
+      <p class="shelter-detail-line shelter-detail-social-row">
+        <strong>Social:</strong>
+
+        <a
+          href="{{ shelter.social_link }}"
+          target="_blank"
+          rel="noopener"
+          class="shelter-detail-social-icon"
+          aria-label="Visit shelter social page"
+        >
+          <img
+            src="{% static 'images/facebook-3.jpg' %}"
+            alt="Social link"
+          >
+        </a>
+       
+        <a
+          href="{{ shelter.social_link }}"
+          target="_blank"
+          rel="noopener"
+          class="shelter-detail-social-icon"
+          aria-label="Visit shelter social page"
+        >
+          <img
+            src="{% static 'images/instagram-3.png' %}"
+            alt="Social link"
+          >
+        </a>
+
+      </p>
+      {% endif %}
+
+      <p class="shelter-detail-line">
+        <strong>Thank You Balance:</strong> £{{ thank_you_balance }}
+      </p>
+    </div>
+
+    <div class="shelter-detail-button-wrap">
+      <a
+        href="{% url 'payments:thank_you' shelter.id %}"
+        class="shelter-detail-thankyou-btn"
+      >
+        SAY THANK YOU
+      </a>
+    </div>
+
+  </div>
+
+<!-- =========================
+     CASES SECTION
+========================== -->
+<div class="shelter-detail-cases-section">
+  <h2 class="shelter-detail-cases-title">CASES</h2>
+
+  {% if cases %}
+  <div class="shelter-detail-cases-list">
+    {% for c in cases %}
+    <article class="shelter-detail-case-card">
+      <h3 class="shelter-detail-case-title">{{ c.title }}</h3>
+
+      <p class="shelter-detail-case-amount">
+        Requested / Funded:<br>
+        £{{ c.amount_requested }} / £{{ c.amount_funded }}
+      </p>
+
+      <p class="shelter-detail-case-status">
+        Status: {{ c.get_status_display }}
+      </p>
+
+      <div class="shelter-detail-case-button-wrap">
+        <a href="{% url 'cases:detail' c.pk %}" class="shelter-detail-case-button">
+          VIEW
+        </a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="shelter-detail-no-cases">No cases for this shelter yet.</p>
+  {% endif %}
+</div>
+
+</section>
 
 {% endblock %}

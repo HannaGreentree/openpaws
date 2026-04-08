@@ -1,17 +1,45 @@
 from django.contrib import admin
+from django.core.exceptions import ValidationError
+from django.forms.models import BaseInlineFormSet
 
 from .models import Case, CaseImage
 
 
+class CaseImageInlineFormSet(BaseInlineFormSet):
+    def clean(self):
+        super().clean()
+
+        total_images = 0
+
+        for form in self.forms:
+            if not hasattr(form, "cleaned_data"):
+                continue
+
+            if form.cleaned_data.get("DELETE"):
+                continue
+
+            if form.cleaned_data.get("image"):
+                total_images += 1
+            elif form.instance and form.instance.pk:
+                total_images += 1
+
+        if total_images > 3:
+            raise ValidationError("Maximum 3 images are allowed per case.")
+
+
 class CaseImageInline(admin.TabularInline):
     model = CaseImage
-    extra = 3
+    formset = CaseImageInlineFormSet
+    extra = 0
+    max_num = 3
+    verbose_name = "Image"
+    verbose_name_plural = "Images"
 
 
 @admin.register(Case)
 class CaseAdmin(admin.ModelAdmin):
     list_display = (
-        "title",
+        "display_title",
         "animal",
         "animals_count",
         "shelter",
@@ -25,6 +53,8 @@ class CaseAdmin(admin.ModelAdmin):
         "approved_at",
         "created_at",
     )
+
+    list_display_links = ("display_title",)
 
     list_filter = (
         "status",
@@ -43,6 +73,7 @@ class CaseAdmin(admin.ModelAdmin):
     )
 
     readonly_fields = (
+        "approved_by",
         "created_at",
         "approved_at",
         "processing_started_at",
@@ -105,9 +136,24 @@ class CaseAdmin(admin.ModelAdmin):
     actions = ["mark_as_rejected", "mark_as_closed"]
 
     def save_model(self, request, obj, form, change):
-        if obj.approved_amount and obj.approved_amount > 0 and not obj.approved_by:
-            obj.approved_by = request.user
+        old_status = None
+        if obj.pk:
+            old_case = Case.objects.filter(pk=obj.pk).first()
+            if old_case:
+                old_status = old_case.status
+
+        if obj.approved_amount and obj.approved_amount > 0:
+            if not obj.approved_by:
+                obj.approved_by = request.user
+
         super().save_model(request, obj, form, change)
+
+        if obj.status == "CLOSED" and old_status != "CLOSED":
+            obj.shelter.update_verification()
+
+    @admin.display(description="Title")
+    def display_title(self, obj):
+        return obj.get_title_display() or obj.title
 
     @admin.display(boolean=True, description="Proof received")
     def proof_received(self, obj):
@@ -119,7 +165,9 @@ class CaseAdmin(admin.ModelAdmin):
 
     @admin.action(description="Mark selected cases as Rejected")
     def mark_as_rejected(self, request, queryset):
-        queryset.update(status="REJECTED")
+        for case in queryset:
+            case.status = "REJECTED"
+            case.save()
 
     @admin.action(description="Mark selected cases as Closed")
     def mark_as_closed(self, request, queryset):

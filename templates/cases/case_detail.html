@@ -1,6 +1,7 @@
-{% extends "base.html" %} {% block content %}
+{% extends "base.html" %}
+{% block content %}
 
-<h1>{{ case.title }}</h1>
+<h1>{{ case.get_title_display }}</h1>
 
 <p>
   <strong>Shelter:</strong>
@@ -21,8 +22,52 @@
 <p><strong>Requested:</strong> £{{ case.amount_requested }}</p>
 <p><strong>Funded:</strong> £{{ case.amount_funded }}</p>
 
+{% if case.approved_amount %}
+<p><strong>Approved amount:</strong> £{{ case.approved_amount }}</p>
+{% endif %}
+
+{% if case.payout_method %}
+<p><strong>Payout method:</strong> {{ case.get_payout_method_display }}</p>
+{% endif %}
+
+{% if case.payout_reference %}
+<p><strong>Payout reference:</strong> {{ case.payout_reference }}</p>
+{% endif %}
+
+{% if case.approved_by %}
+<p><strong>Approved by:</strong> {{ case.approved_by }}</p>
+{% endif %}
+
+{% if case.processing_started_at %}
+<p><strong>Processing started at:</strong> {{ case.processing_started_at }}</p>
+{% endif %}
+
+{% if case.proof_due_at %}
+<p><strong>Proof due at:</strong> {{ case.proof_due_at }}</p>
+{% endif %}
+
+{% if case.proof_submitted_at %}
+<p><strong>Proof submitted at:</strong> {{ case.proof_submitted_at }}</p>
+{% endif %}
+
+{% if case.closed_at %}
+<p><strong>Closed at:</strong> {{ case.closed_at }}</p>
+{% endif %}
+
 <hr />
 <p>{{ case.description }}</p>
+
+{% if case.images.exists %}
+<hr />
+<h3>Case images</h3>
+<div class="case-images-gallery">
+  {% for img in case.images.all %}
+    <div class="case-image-item">
+      <img src="{{ img.image.url }}" alt="{{ case.get_title_display }}">
+    </div>
+  {% endfor %}
+</div>
+{% endif %}
 
 {% if case.proof_link %}
 <hr />
@@ -32,11 +77,14 @@
     {{ case.proof_link }}
   </a>
 </p>
-{% endif %} {% if case.status == "PROCESSING" and proof_form %}
+{% endif %}
+
+{% if case.status == "PROCESSING" and proof_form %}
 <hr />
 <h3>Submit proof link (social media post)</h3>
 <form method="post">
-  {% csrf_token %} {{ proof_form.as_p }}
+  {% csrf_token %}
+  {{ proof_form.as_p }}
   <button type="submit" name="submit_proof">Save proof link</button>
 </form>
 {% endif %}
@@ -48,9 +96,7 @@
   funds to verified shelters/volunteers.
 </p>
 <p>
-  <a href="{% url 'payments:donate_platform' %}"
-    >Donate to the website balance</a
-  >
+  <a href="{% url 'payments:donate_platform' %}">Donate to the website balance</a>
   |
   <a href="{% url 'payments:balance' %}">View platform balance</a>
 </p>

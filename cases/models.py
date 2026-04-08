@@ -1,3 +1,4 @@
+from cloudinary.models import CloudinaryField
 from datetime import timedelta
 
 from django.core.exceptions import ValidationError
@@ -31,28 +32,36 @@ class Case(models.Model):
         (8, "8"),
         (9, "9"),
         (10, "10"),
-        (11, "Others"),
+        (11, "Other (please specify in description)"),
     ]
 
     TITLE_CHOICES = [
         ("FOOD", "Food"),
         ("NEUTERING", "Neutering"),
         ("SURGERY", "Surgery"),
-        ("URGENT_SURGERY", "Urgent surgery"),
+        ("URGENT SURGERY", "Urgent surgery"),
         ("PRESCRIPTION_FOOD", "Vet prescription food"),
         ("OTHER_VET_SERVICE", "Other vet service"),
         ("FLEA_TREATMENT", "Flea treatment"),
         ("TRANSPORT", "Transport expenses"),
-        ("OTHER", "Others"),
+        ("OTHER", "Other"),
     ]
 
-    shelter = models.ForeignKey("shelters.Shelter", on_delete=models.CASCADE)
+    PAYOUT_METHOD_CHOICES = [
+        ("BANK", "Bank transfer"),
+        ("PAYPAL", "PayPal"),
+    ]
+
+    shelter = models.ForeignKey(
+        "shelters.Shelter",
+        on_delete=models.CASCADE,
+        related_name="cases",
+    )
 
     title = models.CharField(
         max_length=30,
         choices=TITLE_CHOICES,
         default="FOOD",
-        help_text="Please select what the requested funds are for.",
     )
 
     animal = models.CharField(
@@ -75,23 +84,28 @@ class Case(models.Model):
     description = models.TextField(
         help_text="Please provide as many details as possible about the animals, their condition, and how the requested funds will be used.",
         validators=[
-            MinLengthValidator(
-                120,
-                message="Please provide a detailed description."
-            )
+            MinLengthValidator(120, message="Please provide a detailed description.")
         ],
     )
 
     amount_requested = models.DecimalField(max_digits=10, decimal_places=2)
-    amount_funded = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+
+    amount_funded = models.DecimalField(
+        max_digits=10,
+        decimal_places=2,
+        default=0,
+    )
+
     approved_amount = models.DecimalField(
         max_digits=10,
         decimal_places=2,
         null=True,
         blank=True,
+        help_text="When admin approves an amount greater than 0, the case will move from OPEN to PROCESSING.",
     )
 
     approved_at = models.DateTimeField(null=True, blank=True)
+
     approved_by = models.ForeignKey(
         "auth.User",
         on_delete=models.SET_NULL,
@@ -100,8 +114,20 @@ class Case(models.Model):
         related_name="approved_cases",
     )
 
-    payout_method = models.CharField(max_length=50, blank=True)
-    payout_reference = models.CharField(max_length=100, blank=True)
+    payout_method = models.CharField(
+        max_length=20,
+        choices=PAYOUT_METHOD_CHOICES,
+        blank=True,
+        default="",
+        help_text="Select how funds will be sent (Bank transfer or PayPal).",
+    )
+
+    payout_reference = models.CharField(
+        max_length=100,
+        blank=True,
+        default="",
+        help_text="Provide bank details or PayPal email.",
+    )
 
     status = models.CharField(
         max_length=20,
@@ -114,7 +140,6 @@ class Case(models.Model):
     processing_started_at = models.DateTimeField(null=True, blank=True)
     proof_due_at = models.DateTimeField(null=True, blank=True)
     proof_submitted_at = models.DateTimeField(null=True, blank=True)
-
     closed_at = models.DateTimeField(null=True, blank=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -138,20 +163,25 @@ class Case(models.Model):
 
     def clean(self):
         if self.status == "PROCESSING":
-            if self.approved_amount is None or self.approved_amount <= 0:
-                raise ValidationError(
-                    "Cannot set status to PROCESSING without an approved amount greater than 0."
-                )
+            if not self.approved_amount or self.approved_amount <= 0:
+                raise ValidationError("Approved amount is required for processing.")
+
+            if not self.payout_method:
+                raise ValidationError("Please select payout method.")
+
+            if not self.payout_reference:
+                raise ValidationError("Please provide payout reference.")
+
+            if not self.approved_by:
+                raise ValidationError("Approved by is required when approving the case.")
 
         if self.status == "AWAITING_REVIEW" and not self.proof_link:
-            raise ValidationError(
-                "Cannot set status to AWAITING_REVIEW without a proof link."
-            )
+            raise ValidationError("Proof link is required for review.")
 
         if self.status == "CLOSED" and not self.proof_link:
-            raise ValidationError("Cannot close a case without a proof link.")
+            raise ValidationError("Cannot close without proof.")
 
-        return super().clean()
+        super().clean()
 
     def save(self, *args, **kwargs):
         previous = None
@@ -161,6 +191,7 @@ class Case(models.Model):
                 "approved_amount",
                 "proof_link",
                 "processing_started_at",
+                "proof_due_at",
                 "proof_submitted_at",
                 "closed_at",
                 "approved_at",
@@ -175,9 +206,11 @@ class Case(models.Model):
 
         if self.status == "PROCESSING":
             entering_processing = previous is None or previous.status != "PROCESSING"
-            if entering_processing and self.processing_started_at is None:
-                self.processing_started_at = now
-                self.proof_due_at = now + timedelta(days=14)
+            if entering_processing:
+                if self.processing_started_at is None:
+                    self.processing_started_at = now
+                if self.proof_due_at is None:
+                    self.proof_due_at = now + timedelta(days=14)
 
         if self.proof_link and self.status == "PROCESSING":
             self.status = "AWAITING_REVIEW"
@@ -197,6 +230,7 @@ class Case(models.Model):
             shelter = self.shelter
             shelter.trust_points = (shelter.trust_points or 0) + 1
             shelter.save(update_fields=["trust_points"])
+            shelter.update_verification()
 
 
 class CaseImage(models.Model):
@@ -205,8 +239,14 @@ class CaseImage(models.Model):
         on_delete=models.CASCADE,
         related_name="images",
     )
-    image = models.ImageField(upload_to="case_images/")
+    image = CloudinaryField("image", folder="openpaws/case_images")
     uploaded_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f"Image for {self.case.get_title_display()}"
+
+    def clean(self):
+        if self.case_id:
+            existing_count = self.case.images.exclude(pk=self.pk).count()
+            if existing_count >= 3:
+                raise ValidationError("Maximum 3 images allowed.")

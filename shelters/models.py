@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
 class Shelter(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=200)
@@ -16,3 +17,8 @@ class Shelter(models.Model):
 
     def __str__(self):
         return self.name
+
+    def update_verification(self):
+        closed_cases_count = self.cases.filter(status="CLOSED").count()
+        self.is_verified = closed_cases_count >= 10
+        self.save(update_fields=["is_verified"])
