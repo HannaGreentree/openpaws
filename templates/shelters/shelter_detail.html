@@ -32,67 +32,90 @@
   ========================== -->
   <div class="shelter-detail-card">
 
+    <!-- IMAGE -->
     <div class="shelter-detail-image-wrap">
-      <img
-        src="{% static 'images/cat-paw.png' %}"
-        alt="{{ shelter.name }}"
-        class="shelter-detail-image"
-      >
+      {% if shelter.image %}
+        <img
+          src="{{ shelter.image.url }}"
+          alt="{{ shelter.name }}"
+          class="shelter-detail-image"
+        >
+      {% else %}
+        <img
+          src="{% static 'images/cat-paw.png' %}"
+          alt="{{ shelter.name }}"
+          class="shelter-detail-image"
+        >
+      {% endif %}
     </div>
 
+    <!-- NAME -->
     <h2 class="shelter-detail-name">{{ shelter.name }}</h2>
 
+    <!-- INFO -->
     <div class="shelter-detail-info">
+
       <p class="shelter-detail-line">
         <strong>Location:</strong> {{ shelter.country }}, {{ shelter.city }}
       </p>
 
       <p class="shelter-detail-line">
-        <strong>Animals cared for:</strong> {{ shelter.animals_count }}
+        <strong>Email:</strong> {{ shelter.email }}
+      </p>
+
+      <!-- OPTIONAL PROFESSIONAL MESSAGE -->
+      <p class="shelter-detail-line">
+        <strong>Contact:</strong> Available upon request
+      </p>
+
+      <p class="shelter-detail-line">
+        <strong>Animals in care:</strong> {{ shelter.animals_count }}
       </p>
 
       <p class="shelter-detail-line">
         <strong>Trust points:</strong> {{ shelter.trust_points }}
       </p>
 
-      {% if shelter.social_link %}
+      <!-- SOCIAL LINKS -->
       <p class="shelter-detail-line shelter-detail-social-row">
         <strong>Social:</strong>
 
         <a
-          href="{{ shelter.social_link }}"
+          href="{{ shelter.social_link_1 }}"
           target="_blank"
           rel="noopener"
           class="shelter-detail-social-icon"
-          aria-label="Visit shelter social page"
+          aria-label="Visit shelter social link 1"
         >
           <img
             src="{% static 'images/facebook-3.jpg' %}"
-            alt="Social link"
+            alt="Social link 1"
           >
         </a>
-       
+
         <a
-          href="{{ shelter.social_link }}"
+          href="{{ shelter.social_link_2 }}"
           target="_blank"
           rel="noopener"
           class="shelter-detail-social-icon"
-          aria-label="Visit shelter social page"
+          aria-label="Visit shelter social link 2"
         >
           <img
             src="{% static 'images/instagram-3.png' %}"
-            alt="Social link"
+            alt="Social link 2"
           >
         </a>
 
       </p>
-      {% endif %}
 
+      <!-- BALANCE -->
       <p class="shelter-detail-line">
-        <strong>Thank You Balance:</strong> £{{ thank_you_balance }}
+        <strong>Thank You Balance:</strong> £{{ thank_you_balance|floatformat:2 }}
       </p>
+
     </div>
 
+    <!-- BUTTON -->
     <div class="shelter-detail-button-wrap">
       <a
         href="{% url 'payments:thank_you' shelter.id %}"
@@ -104,39 +127,39 @@
 
   </div>
 
-<!-- =========================
-     CASES SECTION
-========================== -->
-<div class="shelter-detail-cases-section">
-  <h2 class="shelter-detail-cases-title">CASES</h2>
+  <!-- =========================
+       CASES SECTION
+  ========================== -->
+  <div class="shelter-detail-cases-section">
+    <h2 class="shelter-detail-cases-title">CASES</h2>
 
-  {% if cases %}
-  <div class="shelter-detail-cases-list">
-    {% for c in cases %}
-    <article class="shelter-detail-case-card">
-      <h3 class="shelter-detail-case-title">{{ c.title }}</h3>
+    {% if cases %}
+      <div class="shelter-detail-cases-list">
+        {% for c in cases %}
+          <article class="shelter-detail-case-card">
+            <h3 class="shelter-detail-case-title">{{ c.title }}</h3>
 
-      <p class="shelter-detail-case-amount">
-        Requested / Funded:<br>
-        £{{ c.amount_requested }} / £{{ c.amount_funded }}
-      </p>
+            <p class="shelter-detail-case-amount">
+              Requested / Funded:<br>
+              £{{ c.amount_requested }} / £{{ c.amount_funded }}
+            </p>
 
-      <p class="shelter-detail-case-status">
-        Status: {{ c.get_status_display }}
-      </p>
+            <p class="shelter-detail-case-status">
+              Status: {{ c.get_status_display }}
+            </p>
 
-      <div class="shelter-detail-case-button-wrap">
-        <a href="{% url 'cases:detail' c.pk %}" class="shelter-detail-case-button">
-          VIEW
-        </a>
+            <div class="shelter-detail-case-button-wrap">
+              <a href="{% url 'cases:detail' c.pk %}" class="shelter-detail-case-button">
+                VIEW
+              </a>
+            </div>
+          </article>
+        {% endfor %}
       </div>
-    </article>
-    {% endfor %}
+    {% else %}
+      <p class="shelter-detail-no-cases">No cases for this shelter yet.</p>
+    {% endif %}
   </div>
-  {% else %}
-  <p class="shelter-detail-no-cases">No cases for this shelter yet.</p>
-  {% endif %}
-</div>
 
 </section>
 
