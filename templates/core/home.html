@@ -3,20 +3,33 @@
 <section class="home-page">
   <!-- FULL WIDTH HERO -->
   <section class="hero-section">
-    <img
-      src="{% static 'images/hero-dog.jpg' %}"
-      alt="Animals in need"
-      class="hero-image"
-    />
+
+    <picture>
+      <!-- MOBILE IMAGE -->
+      <source
+        media="(max-width: 768px)"
+        srcset="{% static 'images/home-mobile-4.jpg' %}"
+      />
+
+      <!-- DESKTOP IMAGE -->
+      <img
+        src="{% static 'images/hero-dog.jpg' %}"
+        alt="Animals in need"
+        class="hero-image"
+      />
+    </picture>
+
     <div class="hero-title">
       <h1>Transparent Donations for Animals in Need</h1>
     </div>
+
   </section>
+</section>
 
   <!-- 4 CHARITY ISSUES -->
   <section class="issues-section">
     <div class="issues-container">
-      <h2 class="hero-text-title">RECENT STUDIES SHOWS</h2>
+      <h2 class="hero-text-title">GLOBAL DATA INDICATES</h2>
       <div class="issues-grid">
         <div class="issue-box">
           <h3>PUBLIC TRUST IN CHARITIES DECLINES</h3>
@@ -40,11 +53,17 @@
   <!-- HERO TEXT -->
   <section class="hero-text-section">
     <div class="page-content">
-      <h2 class="hero-text-title">DONATIONS BASED ON FACTS</h2>
+      <h2 class="hero-text-title">NO PROOF - NO DONATION</h2></p>
 
       <div class="hero-text-lines">
         <p>
-          <strong>Do you care about the impact of your donations?</strong>
+          <strong>Do you know how difficult it is to find a volunteer position in a local animal shelter?
+You can apply and wait years to be accepted.
+This shows that many people want to help animals — but don’t always know how.
+Would you take a cat you found on the street to the vet if someone supported you to do it?
+Some people can’t afford to help, but others can contribute.
+Together, we can make it work.</strong>
+<p>Ask yourself — do you care about the impact of your donations?
           Would you prefer to donate and then see images of stray cats that have
           just eaten the food you provided, or a happy dog whose surgery was
           made possible because of your support? Or would you rather donate and
@@ -123,7 +142,7 @@
 
         <article class="step-card">
           <div class="step-number">2</div>
-          <h3>Donors Support the Platform</h3>
+          <h3>Users Support the Platform</h3>
           <p>
             Visitors can donate to support the vital work of shelters and
             volunteers, helping to provide essential care for animals in need.
@@ -132,7 +151,7 @@
 
         <article class="step-card">
           <div class="step-number">3</div>
-          <h3>Admin Reviews Requests</h3>
+          <h3>Admin Review Requests</h3>
           <p>
             Each request is reviewed by an admin before funding is approved. A
             case can only be considered if sufficient funds are available in the
@@ -201,6 +220,7 @@
   <section class="paw-support-section">
     <div class="page-content">
       <div class="paw-cards-grid">
+
         <article class="paw-card">
           <div class="paw-toes">
             <span></span><span></span><span></span><span></span>
@@ -262,10 +282,10 @@
     <div class="page-content">
       <div class="two-column-content">
         <div class="content-box">
-          <h2>WHY TRANSPARENCY MATTERS</h2>
+          <h2>TRANSPARENCY MATTERS</h2>
           <p>
             <strong
-              >Donors deserve to know how their money is used. That’s why
+              > Donors deserve to know how their money is used. That’s why
               OpenPaws</strong
             >
             ensures transparency by requiring shelters to provide proof of
@@ -282,7 +302,7 @@
             <strong>OpenPaws</strong> is registered in the United Kingdom as a
             non-profit organisation, which means that every £10 donated is
             directed fully to the selected case. We are an independent platform
-            operated by a technical team of volunteers. We do not represent any
+            operated by an IT specialists volunteers. We do not represent any
             specific organisation. Our role is to provide a transparent system
             for tracking donations and expenses. Our goal is to inspire more
             people to donate by providing clear, accessible information about

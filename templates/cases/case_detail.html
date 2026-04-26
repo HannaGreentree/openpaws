@@ -1,104 +1,158 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
-<h1>{{ case.get_title_display }}</h1>
+<section class="cases-page">
 
-<p>
-  <strong>Shelter:</strong>
-  <a href="{% url 'shelters:detail' case.shelter.pk %}">
-    {{ case.shelter.name }}
-  </a>
-</p>
 
-<p>
+ <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="top-banner"></div>
+
+  <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">CASE DETAILS</h1>
+  <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="intro">
+    <p class="intro-line">
+      Meet trusted shelters and volunteers caring for animals in need.
+      OpenPaws helps donors discover rescue organisations with more
+      transparency.
+    </p>
+  </div>
+
+   <!-- =========================
+      CASE DETAIL PAGE CONTENT
+  ========================== -->
+
+  {% if case.images.all %}
+    <div class="case-gallery-shell">
+      <div class="case-gallery-main">
+        {% for img in case.images.all %}
+          {% if forloop.first %}
+            <img
+              id="caseMainImage"
+              src="{{ img.image.url }}"
+              alt="{{ case.title }}"
+              onclick="openImage(this.src)"
+            >
+          {% endif %}
+        {% endfor %}
+      </div>
+
+      <div class="case-gallery-side">
+        {% for img in case.images.all %}
+          <button
+            type="button"
+            class="case-gallery-thumb-button{% if forloop.first %} is-active{% endif %}"
+            data-image-url="{{ img.image.url|escapejs }}"
+            aria-label="Show case image {{ forloop.counter }}"
+          >
+            <img
+              src="{{ img.image.url }}"
+              class="case-gallery-thumb"
+              alt="Case image {{ forloop.counter }}"
+            >
+          </button>
+        {% endfor %}
+      </div>
+    </div>
+  {% else %}
+    <div class="case-gallery-empty">
+      <img
+        src="{% static 'images/cat-paw.png' %}"
+        alt="{{ case.title }}"
+        onclick="openImage(this.src)"
+      >
+    </div>
+  {% endif %}
+
+  <!-- =========================
+       IMAGE MODAL
+  ========================== -->
+  <div id="imageModal" class="image-modal" onclick="closeImage()">
+    <img id="modalImage" alt="">
+  </div>
+
+  <!-- =========================
+       CASE FRAME
+  ========================== -->
+  <div class="case-detail-frame">
+    <h2 class="case-detail-title">{{ case.title }}</h2>
+
+    <p class="case-detail-line case-status">
   <strong>Status:</strong>
-  <span
-    class="status-badge {% if case.status == 'OPEN' %}status-open {% elif case.status == 'PROCESSING' %}status-processing {% elif case.status == 'AWAITING_REVIEW' %}status-awaiting-review {% elif case.status == 'CLOSED' %}status-closed {% else %}status-rejected {% endif %}"
-  >
+  <span class="status-badge status-{{ case.status|lower }}">
     {{ case.get_status_display }}
   </span>
 </p>
 
-<p><strong>Requested:</strong> £{{ case.amount_requested }}</p>
-<p><strong>Funded:</strong> £{{ case.amount_funded }}</p>
+    <div class="case-detail-grid">
+      <div class="case-detail-col">
+        <p class="case-detail-line">
+          <strong>Requested:</strong>
+          <span>£{{ case.amount_requested }}</span>
+        </p>
 
-{% if case.approved_amount %}
-<p><strong>Approved amount:</strong> £{{ case.approved_amount }}</p>
-{% endif %}
+        <p class="case-detail-line">
+          <strong>Funded:</strong>
+          <span>£{{ case.amount_funded }}</span>
+        </p>
+      </div>
 
-{% if case.payout_method %}
-<p><strong>Payout method:</strong> {{ case.get_payout_method_display }}</p>
-{% endif %}
+      <div class="case-detail-col">
+        {% if case.animal %}
+          <p class="case-detail-line">
+            <strong>Animal:</strong>
+            <span>{{ case.animal }}</span>
+          </p>
+        {% endif %}
 
-{% if case.payout_reference %}
-<p><strong>Payout reference:</strong> {{ case.payout_reference }}</p>
-{% endif %}
-
-{% if case.approved_by %}
-<p><strong>Approved by:</strong> {{ case.approved_by }}</p>
-{% endif %}
-
-{% if case.processing_started_at %}
-<p><strong>Processing started at:</strong> {{ case.processing_started_at }}</p>
-{% endif %}
-
-{% if case.proof_due_at %}
-<p><strong>Proof due at:</strong> {{ case.proof_due_at }}</p>
-{% endif %}
-
-{% if case.proof_submitted_at %}
-<p><strong>Proof submitted at:</strong> {{ case.proof_submitted_at }}</p>
-{% endif %}
-
-{% if case.closed_at %}
-<p><strong>Closed at:</strong> {{ case.closed_at }}</p>
-{% endif %}
-
-<hr />
-<p>{{ case.description }}</p>
-
-{% if case.images.exists %}
-<hr />
-<h3>Case images</h3>
-<div class="case-images-gallery">
-  {% for img in case.images.all %}
-    <div class="case-image-item">
-      <img src="{{ img.image.url }}" alt="{{ case.get_title_display }}">
+        {% if case.animal_names %}
+          <p class="case-detail-line">
+            <strong>Name:</strong>
+            <span>{{ case.animal_names }}</span>
+          </p>
+        {% endif %}
+      </div>
     </div>
-  {% endfor %}
-</div>
-{% endif %}
 
-{% if case.proof_link %}
-<hr />
-<p>
-  <strong>Proof link:</strong>
-  <a href="{{ case.proof_link }}" target="_blank" rel="noopener">
-    {{ case.proof_link }}
-  </a>
-</p>
-{% endif %}
+    {% if case.money_for %}
+      <p class="case-detail-line case-detail-purpose">
+        <strong>Purpose:</strong>
+        <span>{{ case.money_for }}</span>
+      </p>
+    {% endif %}
 
-{% if case.status == "PROCESSING" and proof_form %}
-<hr />
-<h3>Submit proof link (social media post)</h3>
-<form method="post">
-  {% csrf_token %}
-  {{ proof_form.as_p }}
-  <button type="submit" name="submit_proof">Save proof link</button>
-</form>
-{% endif %}
+    <div class="case-detail-description">
+      {{ case.description }}
+    </div>
 
-<hr />
-<h3>Support this platform</h3>
-<p>
-  Donations go to the website balance. The admin reviews cases and allocates
-  funds to verified shelters/volunteers.
-</p>
-<p>
-  <a href="{% url 'payments:donate_platform' %}">Donate to the website balance</a>
-  |
-  <a href="{% url 'payments:balance' %}">View platform balance</a>
-</p>
+    {% if case.proof_link %}
+      <p class="case-detail-line case-detail-proof">
+        <strong>Proof link:</strong>
+        <a
+          href="{{ case.proof_link }}"
+          target="_blank"
+          rel="noopener"
+          class="case-detail-link"
+        >
+          View Evidence
+        </a>
+      </p>
+    {% endif %}
+
+    <div class="case-detail-button-wrap">
+      <a href="{% url 'payments:donate_platform' %}" class="case-donate-btn">
+        SUPPORT PLATFORM
+      </a>
+    </div>
+  </div>
+
+</section>
 
 {% endblock %}

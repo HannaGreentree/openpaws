@@ -1,4 +1,34 @@
-{% extends "base.html" %} {% block content %}
-<h1>Thank you 💛</h1>
-<p>Your Thank You contribution has been received.</p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="success-page">
+
+  <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="top-banner"></div>
+
+ <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">DONATION</h1>
+  <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="intro">
+    <p class="intro-line">
+      Platform donations and how funds are distributed.
+      Full transparency of all financial activity in real time.
+    </p>
+  </div>
+  <!-- =========================
+       SUCCESS MESSAGE
+  ========================== -->
+  <div class="success-message">
+    <h2>Thank you 💛</h2>
+    <p>Your Thank You contribution has been received.</p>
+  </div>
+
+</section>
 {% endblock %}

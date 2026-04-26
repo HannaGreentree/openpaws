@@ -4,49 +4,42 @@
 
 <section class="cases-page">
 
-  <div class="cases-top-banner"></div>
+  <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="top-banner"></div>
 
-  <div class="cases-intro">
-    <p class="cases-intro-line">
+  <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">CASES IN NEED</h1>
+
+  <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="intro">
+    <p class="intro-line">
       Meet trusted shelters and volunteers caring for animals in need.
-    </p>
-    <p class="cases-intro-line">
       OpenPaws helps donors discover rescue organisations with more
       transparency.
     </p>
   </div>
 
-  <h1 class="cases-title">CASES IN NEED</h1>
-
-  {% if cases %}
-    <div class="cases-grid">
-      {% for c in cases %}
-        <article class="cases-card">
-          <h2 class="cases-card-title">
-            {{ c.get_title_display }}
-          </h2>
-
-          <p class="cases-card-line cases-card-amount">
-            Requested / Funded:<br>
-            £{{ c.amount_requested }} / £{{ c.amount_funded }}
-          </p>
-
-          <p class="cases-card-line cases-card-status">
-            Status: {{ c.get_status_display }}
-          </p>
-
-          <div class="cases-card-button-wrap">
-            <a href="{% url 'cases:detail' c.pk %}" class="cases-card-button">
-              VIEW
-            </a>
-          </div>
-        </article>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p class="cases-empty">No cases yet.</p>
-  {% endif %}
+  <!-- =========================
+       CASES SECTION
+  ========================== -->
+{% if cases %}
+  <div class="cases-grid">
+    {% for c in cases %}
+      {% include "cases/partials/case_card.html" %}
+    {% endfor %}
+  </div>
+{% else %}
+  <p class="case-empty">No cases yet.</p>
+{% endif %}
 
 </section>
 
 {% endblock %}
+
+

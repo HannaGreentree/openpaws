@@ -3,72 +3,82 @@
 {% block content %}
 
 <section class="shelters-page">
-  <div class="shelters-top-banner"></div>
+  <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="top-banner"></div>
 
-  <div class="shelters-intro">
-    <p class="shelters-intro-line">
+  <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">SHELTERS &VOLUNTEERS</h1>
+
+ <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="intro">
+    <p class="intro-line">
       Meet trusted shelters and volunteers caring for animals in need.
-    </p>
-    <p class="shelters-intro-line">
       OpenPaws helps donors discover rescue organisations with more
       transparency.
     </p>
   </div>
 
-  <h1 class="shelters-title">SHELTERS AND VOLUNTEERS</h1>
-
+  <!-- =========================
+       SHELTER LIST PAGE CONTENT
+  ========================== -->
   {% if shelters %}
-  <div class="shelters-grid">
-    {% for shelter in shelters %}
-    <article class="shelter-card">
-      <div class="shelter-image-wrap">
-        {% if shelter.image %}
-        <img
-          src="{{ shelter.image.url }}"
-          alt="{{ shelter.name }}"
-          class="shelter-image"
-        />
-        {% else %}
-        <img
-          src="{% static 'images/catdog.jpg' %}"
-          alt="{{ shelter.name }}"
-          class="shelter-image"
-        />
-        {% endif %}
-      </div>
+    <div class="shelters-grid">
+      {% for shelter in shelters %}
+        <article class="shelter-card">
+          <div class="shelter-image-wrap">
+            {% if shelter.image %}
+              <img
+                src="{{ shelter.image.url }}"
+                alt="{{ shelter.name }}"
+                class="shelter-image"
+              />
+            {% else %}
+              <img
+                src="{% static 'images/catdog.jpg' %}"
+                alt="{{ shelter.name }}"
+                class="shelter-image"
+              />
+            {% endif %}
+          </div>
 
-      <div class="shelter-card-content">
-        <h2 class="shelter-name">{{ shelter.name }}</h2>
+          <div class="shelter-card-content">
+            <h2 class="shelter-name">{{ shelter.name }}</h2>
 
-        <p class="shelter-info">
-          <span class="shelter-label">Location:</span>
-            {{ shelter.country }}, {{ shelter.city }}
-        </p>
+            <p class="shelter-info">
+              <span class="shelter-label">Location:</span>
+              {{ shelter.country }}, {{ shelter.city }}
+            </p>
 
-        <p class="shelter-info">
-          <span class="shelter-label">Animals:</span>
-          {{ shelter.animals_count }}
-        </p>
+            <p class="shelter-info">
+              <span class="shelter-label">Animals:</span>
+              {{ shelter.animals_count }}
+            </p>
 
-        <p class="shelter-info">
-          <span class="shelter-label">Trust:</span>
-          {{ shelter.trust_points }}
-        </p>
+            <p class="shelter-info">
+              <span class="shelter-label">Trust:</span>
+              {{ shelter.trust_points }}
+            </p>
 
-        <a
-          href="{% url 'shelters:detail' shelter.pk %}"
-          class="shelter-details-btn"
-        >
-          VIEW DETAILS
-        </a>
-      </div>
-    </article>
-    {% endfor %}
-  </div>
+            <a
+              href="{% url 'shelters:detail' shelter.pk %}"
+              class="shelter-details-btn"
+            >
+              VIEW DETAILS
+            </a>
+          </div>
+        </article>
+      {% endfor %}
+    </div>
   {% else %}
-  <div class="shelters-empty">
-    <p>No shelters added yet.</p>
-  </div>
+    <div class="shelters-empty">
+      <p>No shelters added yet.</p>
+    </div>
   {% endif %}
 </section>
 

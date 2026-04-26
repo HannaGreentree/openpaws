@@ -1,4 +1,35 @@
-{% extends "base.html" %} {% block content %}
-<h1>Payment cancelled</h1>
-<p>No worries — you can try again anytime.</p>
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="cancel-page">
+
+  <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="top-banner"></div>
+
+   <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">TRANSACTION</h1>
+  <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="intro">
+    <p class="intro-line">
+      Platform donations and how funds are distributed.
+      Full transparency of all financial activity in real time.
+    </p>
+  </div>
+
+  <!-- =========================
+       CANCEL MESSAGE
+  ========================== -->
+  <div class="transaction-message">
+    <h2>Payment cancelled</h2>
+    <p>No worries — you can try again anytime.</p>
+  </div>
+
+</section>
 {% endblock %}

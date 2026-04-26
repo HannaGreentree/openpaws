@@ -1,26 +1,78 @@
-{% extends "base.html" %} {% block content %}
-<h1>Donate to the website balance</h1>
+{% extends "base.html" %}
+{% load static %}
 
-<p>
-  Your donation goes to the platform balance. Admin allocates funds to approved
-  cases.
-</p>
+{% block content %}
+<section class="thank-you-page">
 
-<form method="post" action="{% url 'payments:donate_platform_checkout' %}">
-  {% csrf_token %}
-  <label for="amount"><strong>Amount (£):</strong></label>
-  <input
-    id="amount"
-    name="amount"
-    type="number"
-    step="0.01"
-    min="1"
-    value="10"
-  />
-  <button type="submit">Donate</button>
-</form>
+  <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="top-banner"></div>
 
-<p style="margin-top: 12px">
-  <a href="{% url 'payments:balance' %}">View platform balance</a>
-</p>
+  <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">PLATFORM DONATION</h1>
+
+  <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="intro">
+    <p class="intro-line">
+      Platform donations and how funds are distributed.
+      Full transparency of all financial activity in real time.
+    </p>
+  </div>
+
+  <!-- =========================
+       DONATION CARD (REUSED)
+  ========================== -->
+  <div class="thank-card">
+
+    <h2 class="thank-heading">Donate to Platform</h2>
+
+    <p class="thank-balance">
+      Your donation goes to the platform balance. Admin allocates funds to approved cases.
+    </p>
+
+    <form method="post"
+          action="{% url 'payments:donate_platform_checkout' %}"
+          class="thank-form">
+      {% csrf_token %}
+
+      <label for="amount" class="thank-label">Amount (£)</label>
+
+      <!-- QUICK AMOUNTS -->
+      <div class="quick-amounts">
+        <button type="button" class="quick-amount-btn is-active" data-amount="5">£5</button>
+        <button type="button" class="quick-amount-btn" data-amount="10">£10</button>
+        <button type="button" class="quick-amount-btn" data-amount="20">£20</button>
+      </div>
+
+      <!-- INPUT -->
+      <input
+        id="amount"
+        name="amount"
+        type="number"
+        step="0.01"
+        min="1"
+        value="5"
+        class="thank-amount-input"
+      />
+
+      <!-- BUTTON -->
+      <button type="submit" class="thank-submit-btn">
+        Donate
+      </button>
+
+    </form>
+
+    <!-- LINK -->
+    <a class="balance-link" href="{% url 'payments:balance' %}">
+      View platform balance
+    </a>
+
+  </div>
+
+</section>
 {% endblock %}

@@ -1,17 +1,68 @@
 {% extends "base.html" %}
+{% load static %}
+
 {% block content %}
-<h1>Say Thank You 💛</h1>
+<section class="thank-you-page">
 
-<p><strong>Shelter:</strong> {{ shelter.name }}</p>
+  <!-- =========================
+       TOP BANNER
+  ========================== -->
+  <div class="top-banner"></div>
 
-{% if thank_you_balance %}
-<p><strong>Thank You balance for this shelter:</strong> £{{ thank_you_balance }}</p>
-{% endif %}
+  <!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">THANK YOU DONATION</h1>
+  <!-- =========================
+       INTRO TEXT
+  ========================== -->
+  <div class="intro">
+    <p class="intro-line">
+      Platform donations and how funds are distributed.
+      Full transparency of all financial activity in real time.
+    </p>
+  </div>
 
-<form method="post" action="{% url 'payments:thank_you_checkout' shelter.id %}">
-  {% csrf_token %}
-  <label for="amount"><strong>Amount (£):</strong></label>
-  <input id="amount" name="amount" type="number" step="0.01" min="1" value="5" />
-  <button type="submit">Send Thank You</button>
-</form>
+  <!-- =========================
+       THANK YOU CARD
+  ========================== -->
+  <div class="thank-card">
+    <h2 class="thank-heading">SAY THANK YOU 💛</h2>
+
+    <p class="thank-shelter">
+      <strong>Shelter:</strong> {{ shelter.name }}
+    </p>
+
+    {% if thank_you_balance %}
+    <p class="thank-balance">
+      <strong>Thank You balance:</strong> £{{ thank_you_balance }}
+    </p>
+    {% endif %}
+
+    <form method="post" action="{% url 'payments:thank_you_checkout' shelter.id %}" class="thank-form">
+      {% csrf_token %}
+
+      <label for="amount" class="thank-label">Amount (£)</label>
+
+      <div class="quick-amounts">
+        <button type="button" class="quick-amount-btn is-active" data-amount="5">£5</button>
+        <button type="button" class="quick-amount-btn" data-amount="10">£10</button>
+        <button type="button" class="quick-amount-btn" data-amount="20">£20</button>
+      </div>
+
+      <input
+        id="amount"
+        name="amount"
+        class="thank-amount-input"
+        type="number"
+        step="0.01"
+        min="1"
+        value="5"
+      />
+
+      <button type="submit" class="thank-submit-btn">SEND</button>
+    </form>
+  </div>
+
+</section>
 {% endblock %}

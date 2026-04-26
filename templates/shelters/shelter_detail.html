@@ -7,28 +7,25 @@
   <!-- =========================
        TOP BANNER
   ========================== -->
-  <div class="shelters-top-banner"></div>
+  <div class="top-banner"></div>
 
+<!-- =========================
+       PAGE TITLE
+  ========================== -->
+  <h1 class="title">VOLUNTEER, SHELTER DETAILS</h1>
   <!-- =========================
        INTRO TEXT
   ========================== -->
-  <div class="shelters-intro">
-    <p class="shelters-intro-line">
+  <div class="intro">
+    <p class="intro-line">
       Meet trusted shelters and volunteers caring for animals in need.
-    </p>
-    <p class="shelters-intro-line">
       OpenPaws helps donors discover rescue organisations with more
       transparency.
     </p>
   </div>
-
+  
   <!-- =========================
-       PAGE TITLE
-  ========================== -->
-  <h1 class="shelters-title">SHELTER/VOLUNTEER DETAILS</h1>
-
-  <!-- =========================
-       SHELTER DETAIL CARD
+       SHELTER DETAIL CONTENT
   ========================== -->
   <div class="shelter-detail-card">
 
@@ -121,7 +118,7 @@
         href="{% url 'payments:thank_you' shelter.id %}"
         class="shelter-detail-thankyou-btn"
       >
-        SAY THANK YOU
+        THANK YOU
       </a>
     </div>
 
@@ -130,37 +127,46 @@
   <!-- =========================
        CASES SECTION
   ========================== -->
-  <div class="shelter-detail-cases-section">
-    <h2 class="shelter-detail-cases-title">CASES</h2>
-
-    {% if cases %}
-      <div class="shelter-detail-cases-list">
-        {% for c in cases %}
-          <article class="shelter-detail-case-card">
-            <h3 class="shelter-detail-case-title">{{ c.title }}</h3>
-
-            <p class="shelter-detail-case-amount">
-              Requested / Funded:<br>
-              £{{ c.amount_requested }} / £{{ c.amount_funded }}
-            </p>
-
-            <p class="shelter-detail-case-status">
-              Status: {{ c.get_status_display }}
-            </p>
-
-            <div class="shelter-detail-case-button-wrap">
-              <a href="{% url 'cases:detail' c.pk %}" class="shelter-detail-case-button">
-                VIEW
-              </a>
-            </div>
-          </article>
-        {% endfor %}
-      </div>
-    {% else %}
-      <p class="shelter-detail-no-cases">No cases for this shelter yet.</p>
-    {% endif %}
+  {% if cases %}
+  <div class="cases-grid">
+    {% for c in cases %}
+      {% include "cases/partials/case_card.html" %}
+    {% endfor %}
   </div>
+{% else %}
+  <p class="case-empty">No cases yet.</p>
+{% endif %}
 
 </section>
 
 {% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
