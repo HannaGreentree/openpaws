@@ -204,3 +204,39 @@ In this project Stripe Checkout sessions are successfully created and donation r
 Manual testing completed by: **Hanna Greentree**  
 Date: **10 March 2026**  
 Environment: Local development (Django 4.2, SQLite, Safari)
+
+---
+
+# 8. Additional Testing
+
+## CSS Validation
+
+CSS was validated using:
+https://jigsaw.w3.org/css-validator/
+
+No critical errors were found after corrections.
+
+---
+
+## Accessibility Testing
+
+Accessibility was tested using:
+https://www.accessibilitychecker.org
+
+The site meets basic accessibility expectations including:
+
+- readable font sizes
+- colour contrast
+- keyboard navigation support
+- responsive design
+
+---
+
+## Cross-Browser Testing
+
+The application was tested in:
+
+- Safari (primary browser)
+- Chrome (basic verification)
+
+No major issues were detected.
