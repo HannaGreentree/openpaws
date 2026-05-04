@@ -199,39 +199,33 @@ git clone https://github.com/HannaGreentree/openpaws.git
 
 2. Navigate into the project:
 
-```bash
 cd openpaws
 
 3. Create a virtual environment:
 
-```bash
 python -m venv venv
 
 4. Activate the environment:
 Mac/Linux:
 
-```bash
 source venv/bin/activate
 
 Windows:
 
-```bash
 venv\Scripts\activate
 
 5. Install dependencies: 
 
-```bash
 pip install -r requirements.txt
 
 6. Run migrations:
 
-```bash
 python manage.py migrate
 
 7. Start the server:
 
-```bash
 python manage.py runserver
+
 
 # Database Design
 
