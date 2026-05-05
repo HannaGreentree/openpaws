@@ -385,9 +385,9 @@ html {
   }
 }
 
-/*====================================================
+/* ====================================================
    SHARED PAGE LAYOUT FOR ALL PAGES EXCEPT HOME PAGE
-======================================================*/
+====================================================== */
 
 .top-banner {
   background-image: url("/static/images/cat-plus-dog.png");
@@ -475,9 +475,9 @@ html {
   }
 }
 
-/*=============================================================
+/* =============================================================
    CASE CARD DESIGN FOR CASE LIST PAGE AND SHELTER DETAIL PAGE
-===============================================================*/
+=============================================================== */
 
 /* ====================
    CASE GRID DESKTOP
@@ -698,7 +698,9 @@ html {
    HOME PAGE DESKTOP
 ========================= */
 
-/* hero screen image */
+/* =================== 
+    HERO SCREEN IMAGE 
+   ==================== */
 .hero-section {
   height: 78vh;
   margin-left: calc(-50vw + 50%);
@@ -734,7 +736,9 @@ html {
   text-shadow: 0 4px 18px rgba(0, 0, 0, 0.42);
 }
 
-/* 4 charity issues cards */
+/* ===========================
+   4 CHARITY ISSUES CARDS 
+============================ */
 .issues-section {
   padding: 40px 0;
 }
@@ -776,7 +780,9 @@ html {
   transform: translateY(-16px);
 }
 
-/* hero text donations based on facts */
+/* ==================================== 
+    HERO TEXT DONATIONS BASED ON FACTS 
+ ===================================== */
 .hero-text-section {
   box-shadow: rgb(247, 247, 247) 0px 4px 12px;
   padding: 44px 0 10px;
@@ -810,7 +816,9 @@ html {
   margin-bottom: 0;
 }
 
-/* 5 steps of transparency */
+/* ========================= 
+   5 STEPS OF TRANSPARENCY 
+  ========================== */
 .process-title-section {
   padding: 42px 0 12px;
   text-align: center;
@@ -907,7 +915,9 @@ html {
   transform: translateY(0) scale(0.95);
 }
 
-/* donate to paw cards */
+/* =========================
+   DONATE TO PAW CARDS 
+ ========================== */
 .paw-support-section {
   padding: 42px 0 10px;
 }
@@ -1057,7 +1067,9 @@ html {
   color: rgb(6, 52, 56);
 }
 
-/* 2 column sections */
+/* ====================
+    2 COLUMN SECTIONS 
+ ====================== */
 .bottom-info-section {
   padding: 38px 0 10px;
 }
@@ -1097,7 +1109,9 @@ html {
   padding-left: 20px;
 }
 
-/* contact section */
+/* =================
+   CONTACT SECTION 
+ =================== */
 .contact-section {
   padding: 44px 0 10px;
 }
@@ -1147,11 +1161,10 @@ html {
   transform: scale(1.1);
 }
 
-/*===============================
+/* ===============================
     HOME PAGE RESPONSIVE
-=================================*/
+================================= */
 
-/* responsive hero screen image */
 @media (max-width: 992px) {
   .hero-section {
     height: 90vh;
@@ -1189,7 +1202,9 @@ html {
   }
 }
 
-/* responsive 4 charity issues */
+/* ============================
+   RESPONSIVE 4 CHARITY ISSUES 
+ =============================== */
 @media (max-width: 768px) {
   .issues-grid {
     grid-template-columns: 1fr;
@@ -1221,7 +1236,9 @@ html {
   }
 }
 
-/* responsive hero text */
+/* ======================
+   RESPONSIVE HERO TEXT 
+ ======================== */
 @media (max-width: 768px) {
   .hero-text-section {
     padding: 30px 0 10px;
@@ -1249,7 +1266,9 @@ html {
   }
 }
 
-/* responsive 5 steps of transparency */
+/* ===================================
+   RESPONSIVE 5 STEPS OF TRANSPARENCY 
+====================================== */
 @media (max-width: 1200px) {
   .steps-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -1304,7 +1323,9 @@ html {
   }
 }
 
-/* responsive donate to paw cards */
+/* ================================
+    RESPONSIVE DONATE TO PAW CARDS 
+  ================================== */
 @media (max-width: 1400px) {
   .paw-pad h3 {
     font-size: 1.7rem;
@@ -1386,7 +1407,9 @@ html {
   }
 }
 
-/* responsive 2 column sections */
+/* ==============================
+    RESPONSIVE 2 COLUMN SECTIONS 
+ ================================= */
 @media (max-width: 1200px) {
   .two-column-content {
     grid-template-columns: 1fr;
@@ -1430,7 +1453,9 @@ html {
   }
 }
 
-/* responsive contact section */
+/* ============================
+    RESPONSIVE CONTACT SECTION 
+  ============================== */
 @media (max-width: 992px) {
   .contact-content-inner {
     border-radius: 16px;
@@ -1585,14 +1610,18 @@ html {
 ================================= */
 
 
-/* tablet */
+/* ==========
+    TABLET 
+  =========== */
 @media (max-width: 992px) {
   .shelters-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* mobile */
+/* =============
+     MOBILE 
+  ============= */
 @media (max-width: 768px) {
   .shelters-page {
     padding: 16px 16px 60px;
@@ -1868,7 +1897,9 @@ html {
 ==================================== */
 
 
-/* LARGE TABLETS / SMALL LAPTOPS */
+/* ================================
+    LARGE TABLETS / SMALL LAPTOPS 
+  ================================== */
 @media (max-width: 992px) {
   .balance-page {
     padding: 20px 16px 70px;
@@ -1906,7 +1937,9 @@ html {
   }
 }
 
-/* MOBILE */
+/* ===========
+      MOBILE 
+  ============= */
 @media (max-width: 520px) {
   .balance-page {
     padding: 16px 10px 50px;
@@ -2003,7 +2036,9 @@ html {
   box-shadow: 0 3px 10px rgba(202, 202, 202, 0.956);
 }
 
-/* came image thumbnails */
+/* =======================
+    CASE IMAGE THUMBNAILS 
+  ========================= */
 .case-gallery-side {
   display: grid;
   grid-template-columns: repeat(3, 50px);
@@ -2049,7 +2084,9 @@ html {
   transform: scale(1.03);
 }
 
-/* empty gallery */
+/* ================
+   EMPTY GALLERY
+ =================== */
 .case-gallery-empty {
   align-items: center;
   background: #ffffff;
@@ -2072,7 +2109,9 @@ html {
   width: 100%;
 }
 
-/* image modal */
+/* ==================
+    IMAGE MODAL 
+  ================= */
 .image-modal {
   display: none;
   position: fixed;
@@ -2094,7 +2133,9 @@ html {
 }
 
 
-/*  case transform */
+/* ================= 
+    CASE TRANSFORM 
+  ================= */
 .case-detail-frame {
   background: linear-gradient(to bottom, #ffffff, #f7f9fa);
   border: 1px solid var(--soft-border);
@@ -2171,7 +2212,9 @@ html {
   font-weight: 500;
 }
 
-/* status badge colors */
+/* =======================
+    STATUS BADGE COLORS 
+  ======================= */
 .status-badge {
   display: inline-flex;
   align-items: center;
@@ -2187,7 +2230,9 @@ html {
   box-shadow: 0 3px 10px rgba(202, 202, 202, 0.956);
 }
 
-/* OPEN */
+/* ==========
+    OPEN 
+   ========= */
 .status-open {
   background: #d2fbfc;
   color: #2c746c;
@@ -2195,7 +2240,9 @@ html {
   text-transform: uppercase;
 }
 
-/* PROCESSING */
+/* =============
+    PROCESSING 
+  =============== */
 .status-processing {
   background: #efd4ff;
   color: #62266d;
@@ -2203,7 +2250,9 @@ html {
   text-transform: uppercase;
 }
 
-/* AWAITING REVIEW */
+/* ====================
+    AWAITING REVIEW 
+  =================== */
 .status-awaiting_review {
   background: #ffdea0;
   color: #916114;
@@ -2211,7 +2260,9 @@ html {
   text-transform: uppercase;
 }
 
-/* CLOSED */
+/* ============
+     CLOSED 
+ ============= */
 .status-closed {
   background: #d0f4a7;
   color: #395f22;
@@ -2219,7 +2270,9 @@ html {
   text-transform: uppercase;
 }
 
-/* REJECTED */
+/* ============
+     REJECTED 
+   ============ */
 .status-rejected {
   background: #f08c8c;
   color: #782626;
@@ -2228,7 +2281,9 @@ html {
 }
 
 
-/* two column info block */
+/* ========================
+     TWO COLUMN INFO BLOCK 
+  ======================== */
 .case-detail-grid {
   display: grid;
   grid-template-columns: auto auto;
@@ -2244,7 +2299,9 @@ html {
   gap: 14px;
 }
 
-/* purpose and proof */
+/* ====================
+     PURPOSE AND PROOF 
+   ===================== */
 .case-detail-purpose,
 .case-detail-proof {
   justify-content: center;
@@ -2261,7 +2318,6 @@ html {
   min-width: 0;
 }
 
-/* description */
 .case-detail-description {
   color: #4d5a65;
   font-size: 1.08rem;
@@ -2278,7 +2334,6 @@ html {
   box-shadow: 0 10px 24px rgba(196, 223, 242, 0.493);
 }
 
-/* case detail link */
 .case-detail-link {
   color: #4d8cab;
   text-decoration: none;
@@ -2289,7 +2344,7 @@ html {
   text-decoration: underline;
 }
 
-/* case detail button */
+
 .case-detail-button-wrap {
   margin-top: 28px;
   text-align: center;
@@ -2372,7 +2427,6 @@ html {
     width: 100%;
   }
 
-  /* case detail frame */
   .case-detail-frame {
     background: linear-gradient(180deg, #ffffff 0%, #f8f9fa 100%);
     border: 1px solid #dfe5e8;
@@ -2396,7 +2450,9 @@ html {
     text-align: center;
   }
 
-  /* case card */  
+  /* =============
+      CASE CARD
+    ============== */  
   .case-detail-grid {
     column-gap: 0;
     grid-template-columns: 1fr;
@@ -2412,7 +2468,9 @@ html {
   }
 
 
-  /* 2 column layout */
+  /* =================
+      2 COLUMN LAYOUT 
+   ==================== */
   .case-detail-line {
     display: grid;
    grid-template-columns: max-content 1fr;
@@ -2451,7 +2509,7 @@ html {
   color: #2d9a17;    /* your preferred colour */
 }
 
-  /* case detail description */
+
   .case-detail-description {
     background: rgba(255, 255, 255, 0.72);
     border: 1px solid #e2e0e0;
@@ -2527,19 +2585,14 @@ html {
 
 
 
-/* =============================
-   CANCEL PAGE RESPONSIVE  
-===============================*/
-
-
 
 
 /* ==============================
    DONATE PLATFORM PAGE DESKTOP  
-=================================*/
-/* ================================
+================================= */
+/* ======================================
    PLATFORM DONATION PAGE DESKTOP DESIGN
-==================================*/
+======================================== */
 .thank-you-page {
   box-sizing: border-box;
   margin: 0 auto;
@@ -2547,7 +2600,9 @@ html {
   width: min(92%, 1400px);
 }
 
-/* thank you / donation card */
+/* ============================= 
+    THANK YOU / DONATION CARD 
+  ============================== */
 .thank-card {
   background: #f9f9f9;
   border: 1px solid #e2e0e0;
@@ -2587,7 +2642,6 @@ html {
   margin: 0 0 14px;
 }
 
-/* form */
 .thank-form {
   align-items: center;
   display: flex;
@@ -2604,7 +2658,6 @@ html {
   width: 100%;
 }
 
-/* quick amounts */
 .quick-amounts {
   display: flex;
   gap: 22px;
@@ -2641,7 +2694,9 @@ html {
   box-shadow: 0 10px 24px rgba(176, 176, 176, 0.916);
 }
 
-/* input - submit button */
+/* =======================
+    INPUT - SUBMIT BUTTON 
+  ======================== */
 .thank-amount-input {
   border: 1px solid #cecece;
   border-radius: 20px;
@@ -2685,7 +2740,7 @@ html {
   color: #132c46;
 }
 
-/* balance link */
+
 .balance-link {
   color: #4d8cab;
   display: inline-block;
@@ -2698,7 +2753,7 @@ html {
   text-decoration: underline;
 }
 
-/* ================================
+/* =================================
    PLATFORM DONATION PAGE RESPONSIVE
 ==================================*/
 @media (max-width: 768px) {
@@ -2787,11 +2842,6 @@ html {
 
 
 /* ================================
-   SUCCESS PAGE RESPONSIVE  
-==================================*/
-
-
-/* ================================
    THANK YOU PAGE DESKTOP DESIGN  
 ==================================*/
 .thank-you-page {
@@ -2801,7 +2851,6 @@ html {
   width: min(92%, 1400px);
 }
 
-/* thank you card */
 .thank-card {
   background: #f9f9f9;
   border: 1px solid #e2e0e0;
@@ -2842,7 +2891,6 @@ html {
   margin: 0 0 14px;
 }
 
-/* form */
 .thank-form {
   align-items: center;
   display: flex;
@@ -2859,7 +2907,6 @@ html {
   width: 100%;
 }
 
-/* quick amounts */
 .quick-amounts {
   display: flex;
   gap: 22px;
@@ -2895,7 +2942,6 @@ html {
   box-shadow: 0 10px 24px rgba(176, 176, 176, 0.916);
 }
 
-/* input - submit button */
 .thank-amount-input {
   border: 1px solid #cecece;
   border-radius: 20px;
