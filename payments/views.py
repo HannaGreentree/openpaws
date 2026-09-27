@@ -110,7 +110,7 @@ def donate_platform_checkout(request):
             {
                 "price_data": {
                     "currency": "gbp",
-                    "product_data": {"name": "Donate to OpenPaws platform balance"},
+                    "product_data": {"name": "Donate to DonateView platform balance"},
                     "unit_amount": int(amount * 100),
                 },
                 "quantity": 1,
