@@ -1,6 +1,6 @@
-# TESTING.md — OpenPaws (Manual Testing)
+# TESTING.md — DonateView (Manual Testing)
 
-Manual tests completed for the **OpenPaws Django project**.  
+Manual tests completed for the **DonateView Django project**.  
 Testing verifies that the main user journeys work correctly, including public browsing, shelter case workflow, admin moderation, and Stripe payment integration.
 
 The purpose of testing was to confirm that the application meets the expected project requirements such as CRUD functionality, user permissions, validation rules, and relational database behaviour.
@@ -41,9 +41,9 @@ The purpose of testing was to confirm that the application meets the expected pr
 
 All screenshots are stored in:
 
-# TESTING.md — OpenPaws (Manual Testing)
+# TESTING.md — DonateView (Manual Testing)
 
-Manual tests completed for the **OpenPaws Django project**.  
+Manual tests completed for the **DonateView Django project**.  
 Testing verifies that the main user journeys work correctly, including public browsing, shelter case workflow, admin moderation, and Stripe payment integration.
 
 The purpose of testing was to confirm that the application meets the expected project requirements such as CRUD functionality, user permissions, validation rules, and relational database behaviour.

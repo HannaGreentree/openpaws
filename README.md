@@ -1,4 +1,4 @@
-# OpenPaws — The most Transparent Animal Rescue Support Platform
+# DonateView — The most Transparent Animal Rescue Support Platform
 
 ## Live Project
 
@@ -10,7 +10,7 @@ https://github.com/HannaGreentree/openpaws
 
 ---
 
-OpenPaws is a **full-stack Django web application** designed to provide a fast way for animal shelters and independent volunteers in Ukraine to raise funds for the animals they care about.
+DonateView is a **full-stack Django web application** designed to provide a fast way for animal shelters and independent volunteers in Ukraine to raise funds for the animals they care about.
 
 The platform allows shelters to request financial support for specific needs such as food, medical treatment, or parasite treatments.
 
@@ -32,13 +32,13 @@ This may include receipts, images, invoices, and links to social media publicati
 
 By requiring this evidence before a case can be closed, the platform ensures that donations remain accountable and traceable.
 
-OpenPaws - Bank of Animals
+DonateView - Bank of Animals
 
 ---
 
 ## Platform Concept
 
-OpenPaws is a transparency-based animal aid platform.
+DonateView is a transparency-based animal aid platform.
 
 It brings together animal shelters and private rescuers who are willing to clearly show:
 
@@ -65,7 +65,7 @@ The goal of this project is to demonstrate a **Full Stack MVC Django application
 
 # Vision
 
-The vision of OpenPaws is to create a system where helping animals is based on trust.
+The vision of DonateView is to create a system where helping animals is based on trust.
 
 - donors gain confidence  
 - shelters gain credibility  
@@ -136,7 +136,7 @@ Admin reviews the proof and closes the case.
 
 # UX Design
 
-The design of OpenPaws focuses on clarity, trust, and ease of use.
+The design of DonateView focuses on clarity, trust, and ease of use.
 
 The platform was designed to ensure that users can quickly understand:
 
@@ -338,7 +338,7 @@ https://www.accessibilitychecker.org
 
 ## Accessibility Statement
 
-OpenPaws was developed with accessibility in mind and aims to follow the **Web Content Accessibility Guidelines (WCAG) 2.1 / 2.2 Level AA**.
+DonateView was developed with accessibility in mind and aims to follow the **Web Content Accessibility Guidelines (WCAG) 2.1 / 2.2 Level AA**.
 
 The design aims to meet WCAG 2.1 Level AA standards where possible.
 
